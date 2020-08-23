@@ -111,4 +111,4 @@ No. Use at your own risk. This script can show you how powerful the API can be. 
 
 ### What's the minimum version you need?
 
-This script requires Firefly III v5.4.0 minimum.
+This script requires Firefly III v5.4.0-alpha.1 minimum.
