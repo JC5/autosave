@@ -1,5 +1,9 @@
 # Basic auto-save / top-up script for Firefly III
 
+## Minimum version
+
+This script requires *at least* Firefly III v5.4.0-alpha.1.
+
 ## Introduction
 
 These days many banks offer an auto-save function. With each expense the amount is rounded up to € 5,- and the difference is put into your savings account. This can be an easy way to save money.
