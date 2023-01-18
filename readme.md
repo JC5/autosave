@@ -29,7 +29,7 @@ This little script can automatically create these transactions for you, so you d
 
 ## Installation
 
-Just grab `autosave.php` and save it wherever. You will need php 7.4 with the BCMath, curl and JSON extensions. This is pretty common and it shouldn't be a problem.
+Just grab `autosave.php` and save it wherever. You will need PHP 8.0 with the BCMath, curl and JSON extensions. This is pretty common, and it shouldn't be a problem.
 
 Open the file and edit the Firefly III URL and add a Personal Access Token.
 

@@ -29,10 +29,8 @@ bcscale(12);
  * Keep in mind that running this script is entirely AT YOUR OWN RISK with ZERO GUARANTEES.
  */
 
-define('FIREFLY_III_URL', 'http://firefly.sd.home');
-define('FIREFLY_III_TOKEN',
-    'ey...'
-);
+const FIREFLY_III_URL = 'http://firefly.sd.home';
+const FIREFLY_III_TOKEN = 'ey...';
 
 /*
  * HERE BE MONSTERS
@@ -83,7 +81,7 @@ foreach ($groups as $group) {
         continue;
     }
 
-    // get the main transaction (we know its one)
+    // get the main transaction (we know it's one)
     $transaction = $group['attributes']['transactions'][0];
 
     // maybe already has a link to existing auto-save?
@@ -93,8 +91,8 @@ foreach ($groups as $group) {
         foreach ($links as $link) {
             $opposingTransactionId = getOpposingTransaction($transaction['transaction_journal_id'], $link);
 
-            // if the opposing transaction is a transfer, and it's a autosave link (recognized by the tag)
-            // we dont need to create another one.
+            // if the opposing transaction is a transfer, and it's an autosave link (recognized by the tag)
+            // we don't need to create another one.
             $opposingTransaction = getTransaction($opposingTransactionId);
 
             if (isAutoSaveTransaction($opposingTransaction)) {
@@ -110,6 +108,8 @@ foreach ($groups as $group) {
 /**
  * @param array $group
  * @param array $arguments
+ *
+ * @throws JsonException
  */
 function createAutoSaveTransaction(array $group, array $arguments): void
 {
@@ -243,7 +243,7 @@ function getOpposingTransaction(int $transactionId, array $link): int
 function getLinks(array $transaction): array
 {
     $journalId = $transaction['transaction_journal_id'];
-    $links     = getCurlRequest(sprintf('/api/v1/transactions/%d/transaction_links', $journalId));
+    $links     = getCurlRequest(sprintf('/api/v1/transaction-journals/%d/links', $journalId));
 
     if (count($links['data']) > 0) {
         return $links['data'];
@@ -427,7 +427,7 @@ function getArguments(array $arguments): array
     /** @var string $argument */
     foreach ($arguments as $argument) {
         foreach ($fields as $field) {
-            if (0 === strpos($argument, sprintf('--%s=', $field))) {
+            if (str_starts_with($argument, sprintf('--%s=', $field))) {
                 $result[$field] = (int) str_replace(sprintf('--%s=', $field), '', $argument);
                 if ('amount' === $field) {
                     $result[$field] = (float) str_replace(sprintf('--%s=', $field), '', $argument);
