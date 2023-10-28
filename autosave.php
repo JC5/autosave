@@ -173,7 +173,7 @@ function createAutoSaveTransaction(array $group, array $arguments): void
         'notes'        => 'Created to automatically save money.',
     ];
     // create a link between A and B.
-    postCurlRequest('/api/v1/transaction_links', $relationSubmission);
+    postCurlRequest('/api/v1/transaction-links', $relationSubmission);
 
 
 }
@@ -219,7 +219,7 @@ function getTransaction(int $journalId): array
  * @param array $link
  * @return int
  */
-function getOpposingTransaction(int $transactionId, array $link): int
+function getOpposingTransaction(string $transactionId, array $link): int
 {
     $opposingJournal = 0;
     if ($transactionId === $link['attributes']['inward_id']) {
@@ -231,7 +231,7 @@ function getOpposingTransaction(int $transactionId, array $link): int
     if (0 === $opposingJournal) {
         messageAndExit('No opposing transaction.');
     }
-    return $opposingJournal;
+    return (int)$opposingJournal;
 }
 
 
