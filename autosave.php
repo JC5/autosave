@@ -29,7 +29,7 @@ bcscale(12);
  * Keep in mind that running this script is entirely AT YOUR OWN RISK with ZERO GUARANTEES.
  */
 
-const FIREFLY_III_URL = 'http://firefly.sd.home';
+const EXCLUDED_TAGS = 'Direct debit';
 const FIREFLY_III_TOKEN = 'ey...';
 
 /*
@@ -282,8 +282,17 @@ function getTransactions(int $accountId): array
             foreach ($transactions as $transaction) {
                 $time = strtotime($transaction['date']);
                 if ($time > TIMESTAMP) {
-                    // add it to the array:
-                    $addToSet = true;
+                    $tags = $transaction['tags'];
+                    $noExcludedTags = true;
+                    foreach (explode(";", EXCLUDED_TAGS) as $excludedTag) {
+                        if (in_array($tags, $excludedTag)) {
+                            $noExcludedTags = false;
+                        }
+                    }
+                    if ($noExcludedTags) {
+                        // add it to the array:
+                        $addToSet = true;
+                    }
                 }
                 if ($time <= TIMESTAMP) {
                     //message(sprintf('Will not include transaction group #%d, the date is %s', $currentGroup['id'], $transaction['date']));
