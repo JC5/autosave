@@ -145,9 +145,9 @@ function createAutoSaveTransaction(array $group, array $arguments): void
                 'type'           => 'transfer',
                 'source_id'      => $arguments['account'],
                 'destination_id' => $arguments['destination'],
-                'description'    => '(auto save transaction)',
+                'description'    => '(Round-up transaction)',
                 'date'           => substr($first['date'], 0, 10),
-                'tags'           => ['auto-save'],
+                'tags'           => ['Round-up'],
                 'currency_code'  => $first['currency_code'],
                 'amount'         => $amountToCreate,
             ],
@@ -157,7 +157,7 @@ function createAutoSaveTransaction(array $group, array $arguments): void
     // submit:
     $result  = postCurlRequest('/api/v1/transactions', $submission);
     $groupId = $result['data']['id'];
-    message(sprintf('For transaction #%d ("%s") with amount %s %s, have created auto-save transaction #%d with amount %s %s, making the total %s %s.',
+    message(sprintf('For transaction #%d ("%s") with amount %s %s, have created round-up transaction #%d with amount %s %s, making the total %s %s.',
                     $group['id'],
                     $first['description'],
                     $first['currency_code'],
@@ -200,7 +200,7 @@ function isAutoSaveTransaction(array $transaction): bool
     }
     $hasTag = false;
     foreach ($first['tags'] as $tag) {
-        if ('auto-save' === $tag) {
+        if ('Round-up' === $tag) {
             return true;
         }
     }
