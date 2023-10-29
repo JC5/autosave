@@ -1,0 +1,3 @@
+#!/bin/sh
+
+0 * * * * /usr/local/bin/php /srv/autosave.php --account=$SRC_ACCOUNT --destination=$DST_ACCOUNT --amount=$AMOUNT --days=$DAYS > /proc/1/fd/1 2>/proc/1/fd/2

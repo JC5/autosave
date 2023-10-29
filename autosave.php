@@ -29,8 +29,9 @@ bcscale(12);
  * Keep in mind that running this script is entirely AT YOUR OWN RISK with ZERO GUARANTEES.
  */
 
-const EXCLUDED_TAGS = 'Direct debit';
-const FIREFLY_III_TOKEN = 'ey...';
+define('EXCLUDED_TAGS', (string)((getenv('EXCLUDED_TAGS') !== false) ? getenv('EXCLUDED_TAGS') : ''));
+define('FIREFLY_III_TOKEN', (string)((getenv('FIREFLY_III_TOKEN') !== false) ? getenv('FIREFLY_III_TOKEN') : 'ey...'));
+define('FIREFLY_III_URL', (string)((getenv('FIREFLY_III_URL') !== false) ? getenv('FIREFLY_III_URL') : 'https://firefly-iii.org'));
 
 /*
  * HERE BE MONSTERS
@@ -136,6 +137,7 @@ function createAutoSaveTransaction(array $group, array $arguments): void
                 ));
         return;
     }
+
     // create transaction:
     $submission = [
         'transactions' => [
@@ -151,6 +153,7 @@ function createAutoSaveTransaction(array $group, array $arguments): void
             ],
         ],
     ];
+
     // submit:
     $result  = postCurlRequest('/api/v1/transactions', $submission);
     $groupId = $result['data']['id'];
@@ -285,7 +288,7 @@ function getTransactions(int $accountId): array
                     $tags = $transaction['tags'];
                     $noExcludedTags = true;
                     foreach (explode(";", EXCLUDED_TAGS) as $excludedTag) {
-                        if (in_array($tags, $excludedTag)) {
+                        if (in_array($excludedTag, $tags)) {
                             $noExcludedTags = false;
                         }
                     }

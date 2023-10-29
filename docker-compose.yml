@@ -1,0 +1,13 @@
+version: '3.3'
+services:
+  php-cron:
+    image: fireflyiii-autosave-cron
+    build: .
+    environment:
+      FIREFLY_III_TOKEN: 'ey...'
+      FIREFLY_III_URL: 'https://firefly-iii.org'
+      EXCLUDED_TAGS: 
+      SRC_ACCOUNT: 1
+      DST_ACCOUNT: 2
+      AMOUNT: 1
+      DAYS: 1
